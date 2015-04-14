@@ -29,18 +29,34 @@ def make_text(chains):
 
     generated_txt = ""
     stopped = False
+    nxt_wrd = None
 
     while not stopped:
-        # choose a random bi-gram
-        rndm_bi_gram = random.choice(chains.keys())
-        rndm_bi_gram_value = chains[rndm_bi_gram]
+        if nxt_wrd == None:
+            # choose a random bi-gram
+            rndm_bi_gram = random.choice(chains.keys())
+            # print rndm_bi_gram, "randomly choosen bi-gram"
+            rndm_bi_gram_value = chains[rndm_bi_gram]
+            rndm_wrd = random.choice(rndm_bi_gram_value)
+            # print rndm_wrd, "first rndm word"
 
-        rndm_wrd = random.choice(rndm_bi_gram_value)
-        stopped = True
+            generated_txt = generated_txt +" "+ rndm_wrd
+            nxt_wrd = (rndm_bi_gram[1], rndm_wrd)
+            # print nxt_wrd, "first next word"
+        else:
+            bi_gram_value = chains.get(nxt_wrd, None)
+            if bi_gram_value == None:
+                stopped = True
+            else:
+                previous_rndm_wrd = rndm_wrd
+                new_rndm_wrd = random.choice(bi_gram_value)
+                # print new_rndm_wrd, "rnm word"
+                generated_txt = generated_txt +" "+ new_rndm_wrd
+                nxt_wrd = (previous_rndm_wrd, new_rndm_wrd)
+                # print nxt_wrd, "next word"
 
 
-
-    return rndm_bi_gram, rndm_bi_gram_value, rndm_wrd
+    return generated_txt
 
 
 # Change this to read input_text from a file, deciding which file should
