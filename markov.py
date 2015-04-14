@@ -3,24 +3,42 @@ import random
 
 script, corpus_path = argv
 
-def make_chains(corpus_path, n):
+def make_chains(corpus_path, num):
     """Takes input text as string; returns dictionary of markov chains."""
     corpus_txt = open(corpus_path)
     n_grams = {}
+    key = []
     
     text = corpus_txt.read().split()
 
-    for i in range(len(text)-n):
-        key = (text[i], text[i +1])
-        nxt_tupple = text[i + 2]
+
+    # key = tuple(key)
+
+    # why plus 1?
+    for i in range(len(text)-num+1):
+        for t in range(num):
+            key.append(text[i+t])
+        key = tuple(key)
+
+        nxt_word = text[ i+ num + 1]
 
         if key not in n_grams.keys():
-            n_grams[key] = [nxt_tupple]
+            n_grams[key] = [nxt_word]
         else:
-            n_grams[key].append(nxt_tupple)
+            n_grams[key].append(nxt_word)
+
+        key = []
+        # key = (text[i], text[i +1])
+        # nxt_tupple = text[i + 2]
+
+        # if key not in n_grams.keys():
+        #     n_grams[key] = [nxt_tupple]
+        # else:
+        #     n_grams[key].append(nxt_tupple)
 
         # Another way to preform the if else statement above:
         # bi_grams[key] = bigrams.setDefault(key, []).append(nxt_tupple)
+        key = []
     return n_grams
 
 
@@ -53,9 +71,10 @@ def make_text(chains):
     return generated_txt
 
 # Get a Markov chain
-chain_dict = make_chains(corpus_path, 2)
+chain_dict = make_chains(corpus_path, 3)
+print(chain_dict)
 
 # Produce random text
-random_text = make_text(chain_dict)
+# random_text = make_text(chain_dict)
 
-print random_text
+# print random_text
