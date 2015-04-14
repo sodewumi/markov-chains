@@ -12,53 +12,42 @@ def make_chains(corpus_path):
 
     for wrd in range(len(text)-2):
         key = (text[wrd], text[wrd +1])
-        nxt_wrd = text[wrd + 2]
+        nxt_tupple = text[wrd + 2]
 
         if key not in bi_grams.keys():
-            bi_grams[key] = [nxt_wrd]
+            bi_grams[key] = [nxt_tupple]
         else:
-            bi_grams[key].append(nxt_wrd)
+            bi_grams[key].append(nxt_tupple)
 
         # Another way to preform the if else statement above:
-        # bi_grams[key] = bigrams.get(key, []).append(nxt_wrd)
+        # bi_grams[key] = bigrams.setDefault(key, []).append(nxt_tupple)
     return bi_grams
 
 
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
-    stopped = False
-    nxt_wrd = ()
-
     # choose a random bi-gram then find the value of said bi-gram. 
     # Afterward choose a random value from the generated list
     rndm_bi_gram = random.choice(chains.keys())
-    # rndm_bi_gram_value = chains[rndm_bi_gram]
     rndm_wrd = random.choice(chains[rndm_bi_gram])
-    # print rndm_wrd, "first rndm word"
-
     generated_txt = rndm_wrd
+
     # the last word from the previous bi-gram key along with the randomly
     # choosen word is saved for the next iteration of the while loop
-    nxt_wrd = (rndm_bi_gram[1], rndm_wrd)
+    nxt_tupple = (rndm_bi_gram[1], rndm_wrd)
+    bi_gram_value = chains.get(nxt_tupple)
 
-    while not stopped:
-        # if the bi-gram from the previous while loop has a value, return it>
-        # If there is not a value, return None
-        bi_gram_value = chains.get(nxt_wrd, None)
-
-        # if the bi-gram value is none, stop the while loop.
-        if bi_gram_value == None:
-            stopped = True
+    while bi_gram_value:
         # the random word is put in the first element of the nxt word tuple,
         # and the second element is the newly choosen random word.
-        else:
-            previous_rndm_wrd = nxt_wrd[1]
-            new_rndm_wrd = random.choice(bi_gram_value)
-            # print new_rndm_wrd, "rnm word"
-            generated_txt = generated_txt +" "+ new_rndm_wrd
-            nxt_wrd = (previous_rndm_wrd, new_rndm_wrd)
-            # print nxt_wrd, "next word"
+        new_rndm_wrd = random.choice(bi_gram_value)
+        generated_txt = generated_txt +" "+ new_rndm_wrd
+        nxt_tupple = (nxt_tupple[1], new_rndm_wrd)
+
+        # if the bi-gram from the previous while loop has a value, return it
+        # If there is not a value, return None and close the loop
+        bi_gram_value = chains.get(nxt_tupple)
 
 
     return generated_txt
