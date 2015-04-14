@@ -28,12 +28,11 @@ def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
     stopped = False
-    nxt_wrd = None
+    nxt_wrd = ()
 
     # choose a random bi-gram then find the value of said bi-gram. 
     # Afterward choose a random value from the generated list
     rndm_bi_gram = random.choice(chains.keys())
-    # print rndm_bi_gram, "randomly choosen bi-gram"
     # rndm_bi_gram_value = chains[rndm_bi_gram]
     rndm_wrd = random.choice(chains[rndm_bi_gram])
     # print rndm_wrd, "first rndm word"
