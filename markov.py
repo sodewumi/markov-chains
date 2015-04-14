@@ -1,10 +1,14 @@
-import sys
+from sys import argv
 
+script, corpus = argv
 
 def make_chains(corpus):
     """Takes input text as string; returns dictionary of markov chains."""
-
-    return {}
+    corpus_txt = open(corpus)
+    for line in corpus_txt:
+        line = line.rstrip()
+        print line
+    # return {}
 
 
 def make_text(chains):
@@ -20,7 +24,7 @@ def make_text(chains):
 input_text = "Some text"
 
 # Get a Markov chain
-chain_dict = make_chains(input_text)
+chain_dict = make_chains(corpus)
 
 # Produce random text
 random_text = make_text(chain_dict)
