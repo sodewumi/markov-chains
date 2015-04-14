@@ -1,4 +1,5 @@
 from sys import argv
+import random
 
 script, corpus_path = argv
 
@@ -18,17 +19,28 @@ def make_chains(corpus_path):
         else:
             bi_grams[key].append(nxt_wrd)
 
-        # Another way to preform the if else statement above
+        # Another way to preform the if else statement above:
         # bi_grams[key] = bigrams.get(key, []).append(nxt_wrd)
-
-    # return {}
     return bi_grams
 
 
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
-    return "Here's some random text."
+    generated_txt = ""
+    stopped = False
+
+    while not stopped:
+        # choose a random bi-gram
+        rndm_bi_gram = random.choice(chains.keys())
+        rndm_bi_gram_value = chains[rndm_bi_gram]
+
+        rndm_wrd = random.choice(rndm_bi_gram_value)
+        stopped = True
+
+
+
+    return rndm_bi_gram, rndm_bi_gram_value, rndm_wrd
 
 
 # Change this to read input_text from a file, deciding which file should
@@ -39,7 +51,6 @@ input_text = "Some text"
 
 # Get a Markov chain
 chain_dict = make_chains(corpus_path)
-print(chain_dict)
 
 # Produce random text
 random_text = make_text(chain_dict)
