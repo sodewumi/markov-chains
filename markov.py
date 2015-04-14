@@ -3,25 +3,25 @@ import random
 
 script, corpus_path = argv
 
-def make_chains(corpus_path):
+def make_chains(corpus_path, n):
     """Takes input text as string; returns dictionary of markov chains."""
     corpus_txt = open(corpus_path)
-    bi_grams = {}
+    n_grams = {}
     
     text = corpus_txt.read().split()
 
-    for wrd in range(len(text)-2):
-        key = (text[wrd], text[wrd +1])
-        nxt_tupple = text[wrd + 2]
+    for i in range(len(text)-n):
+        key = (text[i], text[i +1])
+        nxt_tupple = text[i + 2]
 
-        if key not in bi_grams.keys():
-            bi_grams[key] = [nxt_tupple]
+        if key not in n_grams.keys():
+            n_grams[key] = [nxt_tupple]
         else:
-            bi_grams[key].append(nxt_tupple)
+            n_grams[key].append(nxt_tupple)
 
         # Another way to preform the if else statement above:
         # bi_grams[key] = bigrams.setDefault(key, []).append(nxt_tupple)
-    return bi_grams
+    return n_grams
 
 
 def make_text(chains):
@@ -52,15 +52,8 @@ def make_text(chains):
 
     return generated_txt
 
-
-# Change this to read input_text from a file, deciding which file should
-# be used by examining the `sys.argv` arguments (if neccessary, see the
-# Python docs for sys.argv)
-
-input_text = "Some text"
-
 # Get a Markov chain
-chain_dict = make_chains(corpus_path)
+chain_dict = make_chains(corpus_path, 2)
 
 # Produce random text
 random_text = make_text(chain_dict)
