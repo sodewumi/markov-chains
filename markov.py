@@ -15,18 +15,23 @@ def make_chains(corpus_path, num):
     # key = tuple(key)
 
     # why plus 1?
-    for i in range(len(text)-num+1):
+    print len(text)
+    for i in range(len(text)-num):
         for t in range(num):
             key.append(text[i+t])
         key = tuple(key)
 
-        if i < len(text) - num-1:
-            nxt_word = text[i + num +1]
+        if i < (len(text)-1):
+            print i
+            nxt_word = text[i + num]
 
-        if key not in n_grams.keys():
-            n_grams[key] = [nxt_word]
-        else:
-            n_grams[key].append(nxt_word)
+        # if key not in n_grams.keys():
+        #     n_grams[key] = [nxt_word]
+        # else:
+        #     n_grams[key].append(nxt_word)
+
+        print key
+        print nxt_word
 
         key = []
         # key = (text[i], text[i +1])
@@ -39,7 +44,7 @@ def make_chains(corpus_path, num):
 
         # Another way to preform the if else statement above:
         # bi_grams[key] = bigrams.setDefault(key, []).append(nxt_tupple)
-    return n_grams
+    return key
 
 
 def make_text(chains):
