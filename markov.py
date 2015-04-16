@@ -32,15 +32,12 @@ def make_text(chains):
     # choose a random bi-gram then find the value of said bi-gram. 
     # Afterward choose a random value from the generated list
     rndm_n_gram = random.choice(chains.keys())
-    # print rndm_n_gram, "rndm_n_gram"
     rndm_wrd = random.choice(chains[rndm_n_gram])
-    # print rndm_wrd, "rndm_wrd"
     generated_txt = rndm_wrd
 
     # the last word from the previous bi-gram key along with the randomly
     # choosen word is saved for the next iteration of the while loop
     nxt_tupple = rndm_n_gram[1:] + tuple([rndm_wrd])
-    # print nxt_tupple
     n_gram_value = chains.get(nxt_tupple)
 
     while n_gram_value:
